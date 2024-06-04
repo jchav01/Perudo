@@ -4,10 +4,13 @@ from collections import Counter
 class Player:
     def __init__(self, name, strategy='prudent'):
         self.name = name
-        self.dice = [random.randint(1, 6) for _ in range(5)]
+        self.dice = self.reset_dice()
         self.eliminated = False
         self.strategy = strategy
         self.proposed_bid = None
+        
+    def reset_dice(self):
+        return [random.randint(1, 6) for _ in range(5)]
 
     def roll_dice(self):
         if not self.eliminated:
@@ -32,7 +35,7 @@ class Player:
         dice_count = Counter(self.dice)
         organized_dice = [(count, value) for value, count in dice_count.items()]
         organized_dice.sort(key=lambda x: x[1])
-        return organized_dice
+        return tuple(organized_dice)
 
     def best_bet(self):
         max = 0
